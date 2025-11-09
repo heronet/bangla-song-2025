@@ -1,0 +1,434 @@
+============================================================
+ARTILLERY TRAJECTORY SIMULATOR - ALL SOLUTIONS
+============================================================
+Projectile mass:      5 kg
+Projectile diameter:  11.0 cm
+Drag coefficient:     0.47
+Launch altitude:      500 m above sea level
+Target distance:      1200 m
+
+============================================================
+METHOD 1: CONSTANT g AND CONSTANT H - ALL SOLUTIONS
+============================================================
+
+Searching for ALL solutions (Constant g, Constant H)...
+Target: 1200m at altitude 500m
+Max velocity available: 450 m/s
+Coarse search...
+Found 54 coarse solutions. Refining...
+
+Found 26 solution(s):
+
+Solution 1:
+  Velocity: 231.00 m/s
+  Angle:    10.20°
+  Flight time: 7.31 s
+  Max height:  66.1 m
+  Error:    0.123 m
+
+Solution 2:
+  Velocity: 214.00 m/s
+  Angle:    12.00°
+  Flight time: 7.95 s
+  Max height:  78.1 m
+  Error:    0.018 m
+
+Solution 3:
+  Velocity: 191.00 m/s
+  Angle:    15.40°
+  Flight time: 9.04 s
+  Max height:  101.3 m
+  Error:    0.032 m
+
+Solution 4:
+  Velocity: 174.50 m/s
+  Angle:    19.00°
+  Flight time: 10.12 s
+  Max height:  126.7 m
+  Error:    0.187 m
+
+Solution 5:
+  Velocity: 163.50 m/s
+  Angle:    22.40°
+  Flight time: 11.08 s
+  Max height:  151.8 m
+  Error:    0.040 m
+
+Solution 6:
+  Velocity: 152.50 m/s
+  Angle:    27.40°
+  Flight time: 12.43 s
+  Max height:  191.1 m
+  Error:    0.186 m
+
+Solution 7:
+  Velocity: 150.00 m/s
+  Angle:    29.00°
+  Flight time: 12.86 s
+  Max height:  204.6 m
+  Error:    0.128 m
+
+Solution 8:
+  Velocity: 146.00 m/s
+  Angle:    32.20°
+  Flight time: 13.72 s
+  Max height:  232.7 m
+  Error:    0.144 m
+
+Solution 9:
+  Velocity: 145.00 m/s
+  Angle:    49.00°
+  Flight time: 18.71 s
+  Max height:  432.0 m
+  Error:    0.038 m
+
+Solution 10:
+  Velocity: 152.00 m/s
+  Angle:    54.40°
+  Flight time: 20.73 s
+  Max height:  529.9 m
+  Error:    0.100 m
+
+Solution 11:
+  Velocity: 159.00 m/s
+  Angle:    57.80°
+  Flight time: 22.21 s
+  Max height:  607.5 m
+  Error:    0.028 m
+
+Solution 12:
+  Velocity: 172.50 m/s
+  Angle:    62.20°
+  Flight time: 24.48 s
+  Max height:  736.9 m
+  Error:    0.080 m
+
+Solution 13:
+  Velocity: 187.00 m/s
+  Angle:    65.40°
+  Flight time: 26.48 s
+  Max height:  861.8 m
+  Error:    0.059 m
+
+Solution 14:
+  Velocity: 191.50 m/s
+  Angle:    66.20°
+  Flight time: 27.05 s
+  Max height:  898.8 m
+  Error:    0.031 m
+
+Solution 15:
+  Velocity: 209.50 m/s
+  Angle:    68.80°
+  Flight time: 29.13 s
+  Max height:  1040.6 m
+  Error:    0.069 m
+
+Solution 16:
+  Velocity: 226.00 m/s
+  Angle:    70.60°
+  Flight time: 30.83 s
+  Max height:  1163.8 m
+  Error:    0.097 m
+
+Solution 17:
+  Velocity: 247.50 m/s
+  Angle:    72.40°
+  Flight time: 32.82 s
+  Max height:  1316.5 m
+  Error:    0.208 m
+
+Solution 18:
+  Velocity: 262.50 m/s
+  Angle:    73.40°
+  Flight time: 34.09 s
+  Max height:  1418.5 m
+  Error:    0.050 m
+
+Solution 19:
+  Velocity: 276.50 m/s
+  Angle:    74.20°
+  Flight time: 35.20 s
+  Max height:  1510.9 m
+  Error:    0.099 m
+
+Solution 20:
+  Velocity: 288.50 m/s
+  Angle:    74.80°
+  Flight time: 36.11 s
+  Max height:  1587.9 m
+  Error:    0.059 m
+
+Solution 21:
+  Velocity: 312.00 m/s
+  Angle:    75.80°
+  Flight time: 37.77 s
+  Max height:  1733.5 m
+  Error:    0.090 m
+
+Solution 22:
+  Velocity: 348.00 m/s
+  Angle:    77.00°
+  Flight time: 40.06 s
+  Max height:  1944.4 m
+  Error:    0.113 m
+
+Solution 23:
+  Velocity: 355.00 m/s
+  Angle:    77.20°
+  Flight time: 40.48 s
+  Max height:  1983.8 m
+  Error:    0.010 m
+
+Solution 24:
+  Velocity: 387.00 m/s
+  Angle:    78.00°
+  Flight time: 42.27 s
+  Max height:  2158.4 m
+  Error:    0.097 m
+
+Solution 25:
+  Velocity: 427.00 m/s
+  Angle:    78.80°
+  Flight time: 44.31 s
+  Max height:  2364.2 m
+  Error:    0.237 m
+
+Solution 26:
+  Velocity: 438.50 m/s
+  Angle:    79.00°
+  Flight time: 44.87 s
+  Max height:  2421.1 m
+  Error:    0.262 m
+
+RECOMMENDED (Constant g,H):
+  Best practical solution (balances low angle, short flight time, reasonable velocity)
+  Velocity: 231.00 m/s, Angle: 10.20°
+
+============================================================
+METHOD 2: VARIABLE g AND VARIABLE H - ALL SOLUTIONS
+============================================================
+
+Searching for ALL solutions (Variable g, Variable H)...
+Target: 1200m at altitude 500m
+Max velocity available: 450 m/s
+Coarse search...
+Found 54 coarse solutions. Refining...
+
+Found 26 solution(s):
+
+Solution 1:
+  Velocity: 231.00 m/s
+  Angle:    10.20°
+  Flight time: 7.31 s
+  Max height:  66.1 m (altitude: 566.1m)
+  Error:    0.123 m
+
+Solution 2:
+  Velocity: 214.00 m/s
+  Angle:    12.00°
+  Flight time: 7.95 s
+  Max height:  78.1 m (altitude: 578.1m)
+  Error:    0.018 m
+
+Solution 3:
+  Velocity: 191.00 m/s
+  Angle:    15.40°
+  Flight time: 9.04 s
+  Max height:  101.3 m (altitude: 601.3m)
+  Error:    0.032 m
+
+Solution 4:
+  Velocity: 174.50 m/s
+  Angle:    19.00°
+  Flight time: 10.12 s
+  Max height:  126.7 m (altitude: 626.7m)
+  Error:    0.187 m
+
+Solution 5:
+  Velocity: 163.50 m/s
+  Angle:    22.40°
+  Flight time: 11.08 s
+  Max height:  151.8 m (altitude: 651.8m)
+  Error:    0.040 m
+
+Solution 6:
+  Velocity: 152.50 m/s
+  Angle:    27.40°
+  Flight time: 12.43 s
+  Max height:  191.1 m (altitude: 691.1m)
+  Error:    0.186 m
+
+Solution 7:
+  Velocity: 150.00 m/s
+  Angle:    29.00°
+  Flight time: 12.86 s
+  Max height:  204.6 m (altitude: 704.6m)
+  Error:    0.128 m
+
+Solution 8:
+  Velocity: 146.00 m/s
+  Angle:    32.20°
+  Flight time: 13.72 s
+  Max height:  232.7 m (altitude: 732.7m)
+  Error:    0.144 m
+
+Solution 9:
+  Velocity: 145.00 m/s
+  Angle:    49.00°
+  Flight time: 18.71 s
+  Max height:  432.0 m (altitude: 932.0m)
+  Error:    0.038 m
+
+Solution 10:
+  Velocity: 152.00 m/s
+  Angle:    54.40°
+  Flight time: 20.73 s
+  Max height:  529.9 m (altitude: 1029.9m)
+  Error:    0.100 m
+
+Solution 11:
+  Velocity: 159.00 m/s
+  Angle:    57.80°
+  Flight time: 22.21 s
+  Max height:  607.5 m (altitude: 1107.5m)
+  Error:    0.028 m
+
+Solution 12:
+  Velocity: 172.50 m/s
+  Angle:    62.20°
+  Flight time: 24.48 s
+  Max height:  736.9 m (altitude: 1236.9m)
+  Error:    0.080 m
+
+Solution 13:
+  Velocity: 187.00 m/s
+  Angle:    65.40°
+  Flight time: 26.48 s
+  Max height:  861.8 m (altitude: 1361.8m)
+  Error:    0.059 m
+
+Solution 14:
+  Velocity: 191.50 m/s
+  Angle:    66.20°
+  Flight time: 27.05 s
+  Max height:  898.8 m (altitude: 1398.8m)
+  Error:    0.031 m
+
+Solution 15:
+  Velocity: 209.50 m/s
+  Angle:    68.80°
+  Flight time: 29.13 s
+  Max height:  1040.6 m (altitude: 1540.6m)
+  Error:    0.069 m
+
+Solution 16:
+  Velocity: 226.00 m/s
+  Angle:    70.60°
+  Flight time: 30.83 s
+  Max height:  1163.8 m (altitude: 1663.8m)
+  Error:    0.097 m
+
+Solution 17:
+  Velocity: 247.50 m/s
+  Angle:    72.40°
+  Flight time: 32.82 s
+  Max height:  1316.5 m (altitude: 1816.5m)
+  Error:    0.208 m
+
+Solution 18:
+  Velocity: 262.50 m/s
+  Angle:    73.40°
+  Flight time: 34.09 s
+  Max height:  1418.5 m (altitude: 1918.5m)
+  Error:    0.050 m
+
+Solution 19:
+  Velocity: 276.50 m/s
+  Angle:    74.20°
+  Flight time: 35.20 s
+  Max height:  1510.9 m (altitude: 2010.9m)
+  Error:    0.099 m
+
+Solution 20:
+  Velocity: 288.50 m/s
+  Angle:    74.80°
+  Flight time: 36.11 s
+  Max height:  1587.9 m (altitude: 2087.9m)
+  Error:    0.059 m
+
+Solution 21:
+  Velocity: 312.00 m/s
+  Angle:    75.80°
+  Flight time: 37.77 s
+  Max height:  1733.5 m (altitude: 2233.5m)
+  Error:    0.090 m
+
+Solution 22:
+  Velocity: 348.00 m/s
+  Angle:    77.00°
+  Flight time: 40.06 s
+  Max height:  1944.4 m (altitude: 2444.4m)
+  Error:    0.113 m
+
+Solution 23:
+  Velocity: 355.00 m/s
+  Angle:    77.20°
+  Flight time: 40.48 s
+  Max height:  1983.8 m (altitude: 2483.8m)
+  Error:    0.010 m
+
+Solution 24:
+  Velocity: 387.00 m/s
+  Angle:    78.00°
+  Flight time: 42.27 s
+  Max height:  2158.4 m (altitude: 2658.4m)
+  Error:    0.097 m
+
+Solution 25:
+  Velocity: 427.00 m/s
+  Angle:    78.80°
+  Flight time: 44.31 s
+  Max height:  2364.2 m (altitude: 2864.2m)
+  Error:    0.237 m
+
+Solution 26:
+  Velocity: 438.50 m/s
+  Angle:    79.00°
+  Flight time: 44.87 s
+  Max height:  2421.1 m (altitude: 2921.1m)
+  Error:    0.262 m
+
+RECOMMENDED (Variable g,H):
+  Best practical solution (balances low angle, short flight time, reasonable velocity)
+  Velocity: 231.00 m/s, Angle: 10.20°
+
+============================================================
+COMPARISON OF RECOMMENDED SOLUTIONS
+============================================================
+Constant g,H: v=231.0 m/s, θ=10.2°, t=7.3s
+Variable g,H: v=231.0 m/s, θ=10.2°, t=7.3s
+
+Differences:
+  Velocity: +0.0 m/s
+  Angle:    +0.0°
+  Time:     +0.0s
+============================================================
+
+============================================================
+ALTERNATIVE RECOMMENDATIONS
+============================================================
+
+Minimum Velocity:
+  Constant: v=145.0 m/s, θ=49.0°
+  Variable: v=145.0 m/s, θ=49.0°
+
+Minimum Flight Time:
+  Constant: v=231.0 m/s, θ=10.2°
+  Variable: v=231.0 m/s, θ=10.2°
+
+Flattest Trajectory:
+  Constant: v=231.0 m/s, θ=10.2°
+  Variable: v=231.0 m/s, θ=10.2°
+============================================================
+

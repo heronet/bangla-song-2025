@@ -1,0 +1,186 @@
+======================================================================
+ARTILLERY RANGE TABLE GENERATOR - RK45 METHOD
+For 18th/19th Century Artillery Officers
+======================================================================
+Integration method: Runge-Kutta 45 (RK45)
+Physics: Constant g and H (historical practice)
+======================================================================
+
+Parameter ranges:
+  Altitudes: [0, 250, 500, 750, 1000]
+  Velocities: 100 to 450 m/s (step: 25)
+  Angles: 10° to 80° (step: 5°)
+
+======================================================================
+STEP 1: BASE RANGE TABLE
+======================================================================
+Generating base range table using RK45...
+Total simulations: 1125
+  Progress: 100/1125 (8.9%)
+  Progress: 200/1125 (17.8%)
+  Progress: 300/1125 (26.7%)
+  Progress: 400/1125 (35.6%)
+  Progress: 500/1125 (44.4%)
+  Progress: 600/1125 (53.3%)
+  Progress: 700/1125 (62.2%)
+  Progress: 800/1125 (71.1%)
+  Progress: 900/1125 (80.0%)
+  Progress: 1000/1125 (88.9%)
+  Progress: 1100/1125 (97.8%)
+✓ Generated 1125 range table entries
+
+✓ Base range table saved to 'artillery_range_table_rk45.csv'
+
+======================================================================
+STEP 2: FIRING TABLES FOR SPECIFIC DISTANCES
+======================================================================
+
+Creating firing table for 1000m target using RK45...
+  Altitude 0m: v=130 m/s, θ=31°
+  Altitude 100m: v=130 m/s, θ=31°
+  Altitude 200m: v=130 m/s, θ=30°
+  Altitude 300m: v=130 m/s, θ=30°
+  Altitude 400m: v=130 m/s, θ=30°
+  Altitude 500m: v=130 m/s, θ=30°
+  Altitude 600m: v=130 m/s, θ=29°
+  Altitude 700m: v=130 m/s, θ=29°
+  Altitude 800m: v=130 m/s, θ=29°
+  Altitude 900m: v=130 m/s, θ=29°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1000m saved to 'firing_table_1000m_rk45.csv'
+
+Creating firing table for 1100m target using RK45...
+  Altitude 0m: v=140 m/s, θ=31°
+  Altitude 100m: v=140 m/s, θ=30°
+  Altitude 200m: v=140 m/s, θ=30°
+  Altitude 300m: v=140 m/s, θ=30°
+  Altitude 400m: v=140 m/s, θ=29°
+  Altitude 500m: v=140 m/s, θ=29°
+  Altitude 600m: v=140 m/s, θ=29°
+  Altitude 700m: v=140 m/s, θ=29°
+  Altitude 800m: v=140 m/s, θ=28°
+  Altitude 900m: v=130 m/s, θ=41°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1100m saved to 'firing_table_1100m_rk45.csv'
+
+Creating firing table for 1200m target using RK45...
+  Altitude 0m: v=150 m/s, θ=31°
+  Altitude 100m: v=150 m/s, θ=30°
+  Altitude 200m: v=150 m/s, θ=30°
+  Altitude 300m: v=150 m/s, θ=30°
+  Altitude 400m: v=150 m/s, θ=29°
+  Altitude 500m: v=150 m/s, θ=29°
+  Altitude 600m: v=150 m/s, θ=29°
+  Altitude 700m: v=140 m/s, θ=40°
+  Altitude 800m: v=140 m/s, θ=38°
+  Altitude 900m: v=140 m/s, θ=37°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1200m saved to 'firing_table_1200m_rk45.csv'
+
+Creating firing table for 1300m target using RK45...
+  Altitude 0m: v=160 m/s, θ=31°
+  Altitude 100m: v=160 m/s, θ=30°
+  Altitude 200m: v=160 m/s, θ=30°
+  Altitude 300m: v=160 m/s, θ=29°
+  Altitude 400m: v=160 m/s, θ=29°
+  Altitude 500m: v=160 m/s, θ=29°
+  Altitude 600m: v=150 m/s, θ=39°
+  Altitude 700m: v=150 m/s, θ=37°
+  Altitude 800m: v=150 m/s, θ=36°
+  Altitude 900m: v=150 m/s, θ=36°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1300m saved to 'firing_table_1300m_rk45.csv'
+
+Creating firing table for 1400m target using RK45...
+  Altitude 0m: v=170 m/s, θ=31°
+  Altitude 100m: v=170 m/s, θ=30°
+  Altitude 200m: v=170 m/s, θ=30°
+  Altitude 300m: v=170 m/s, θ=29°
+  Altitude 400m: v=170 m/s, θ=29°
+  Altitude 500m: v=160 m/s, θ=39°
+  Altitude 600m: v=160 m/s, θ=37°
+  Altitude 700m: v=160 m/s, θ=36°
+  Altitude 800m: v=160 m/s, θ=35°
+  Altitude 900m: v=160 m/s, θ=34°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1400m saved to 'firing_table_1400m_rk45.csv'
+
+Creating firing table for 1500m target using RK45...
+  Altitude 0m: v=180 m/s, θ=31°
+  Altitude 100m: v=180 m/s, θ=30°
+  Altitude 200m: v=180 m/s, θ=30°
+  Altitude 300m: v=180 m/s, θ=29°
+  Altitude 400m: v=180 m/s, θ=29°
+  Altitude 500m: v=170 m/s, θ=38°
+  Altitude 600m: v=170 m/s, θ=37°
+  Altitude 700m: v=170 m/s, θ=35°
+  Altitude 800m: v=170 m/s, θ=35°
+  Altitude 900m: v=170 m/s, θ=34°
+✓ Generated firing table with 10 entries
+✓ Firing table for 1500m saved to 'firing_table_1500m_rk45.csv'
+
+======================================================================
+STEP 3: WIND CORRECTION FACTORS
+======================================================================
+
+Calculating wind correction factors using RK45...
+Base case: v=200 m/s, θ=45°, alt=500m → 1760.7m
+  Progress: 5/25
+  Progress: 10/25
+  Progress: 15/25
+  Progress: 20/25
+  Progress: 25/25
+✓ Generated 25 wind correction entries
+✓ Wind correction table saved to 'wind_correction_table_rk45.csv'
+
+======================================================================
+STEP 4: INTERPOLATION GUIDE
+======================================================================
+
+Creating interpolation guide...
+✓ Generated interpolation guide with 3 entries
+✓ Interpolation guide saved to 'interpolation_guide_rk45.csv'
+
+======================================================================
+STEP 5: SIMPLIFIED EMPIRICAL FORMULA
+======================================================================
+
+Deriving simplified formula for altitude=500m...
+  Formula R² score: 0.8864
+
+  Simplified Formula (altitude=500m):
+  Range ≈ 7.0972*v + -0.007536*v² + 467.07*sin(2θ)
+          + 4.5820*v*sin(2θ) + -750.72
+  where v is velocity (m/s) and θ is angle (degrees)
+
+======================================================================
+STEP 6: VISUALIZATIONS
+======================================================================
+
+Generating nomograph data for altitude=500m...
+✓ Generated nomograph data: 15 velocities × 15 angles
+
+Generating plots...
+✓ Nomograph saved to 'nomograph_range_rk45.png'
+✓ Firing angle chart saved to 'firing_angles_vs_altitude_rk45.png'
+✓ Wind correction chart saved to 'wind_corrections_rk45.png'
+
+======================================================================
+ALL TABLES AND CHARTS GENERATED SUCCESSFULLY!
+======================================================================
+
+Files created (all using RK45 method):
+  • artillery_range_table_rk45.csv - Complete range data
+  • firing_table_XXXXm_rk45.csv - Firing solutions for specific distances
+  • wind_correction_table_rk45.csv - Wind adjustment factors
+  • interpolation_guide_rk45.csv - Simple interpolation rules
+  • nomograph_range_rk45.png - Graphical calculator
+  • firing_angles_vs_altitude_rk45.png - Altitude corrections
+  • wind_corrections_rk45.png - Wind effect visualization
+
+All data generated using Runge-Kutta 45 (RK45) integration method
+for consistency with Part 1 analysis.
+
+These can be included in your UPC paper!
+======================================================================
+
