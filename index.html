@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artillery Trajectory Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            border: 1px solid #3a3a3a;
+        }
+
+        .header {
+            background: linear-gradient(180deg, #1c1c1c 0%, #2a2a2a 100%);
+            color: #e0e0e0;
+            padding: 20px 30px;
+            border-bottom: 2px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 0;
+        }
+
+        .controls-panel {
+            background: #242424;
+            padding: 25px;
+            border-right: 1px solid #3a3a3a;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .canvas-panel {
+            padding: 25px;
+            background: #1e1e1e;
+            position: relative;
+        }
+
+        .canvas-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .results-overlay {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background: rgba(26, 26, 26, 0.92);
+            border: 1px solid #3a3a3a;
+            border-left: 3px solid #d4af37;
+            padding: 15px;
+            border-radius: 4px;
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .results-overlay h4 {
+            color: #d4af37;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .results-overlay p {
+            font-size: 11px;
+            margin: 6px 0;
+            color: #b0b0b0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .results-overlay strong {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        .results-overlay .value {
+            color: #d4af37;
+            font-weight: 700;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .control-group h3 {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .input-row {
+            margin-bottom: 15px;
+        }
+
+        .input-row label {
+            display: block;
+            font-size: 12px;
+            color: #a0a0a0;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-row input[type="range"] {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #3a3a3a;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .input-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #d4af37;
+            cursor: pointer;
+            border: 2px solid #b8941f;
+        }
+
+        .input-row input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #d4af37;
+            cursor: pointer;
+            border: 2px solid #b8941f;
+        }
+
+        .value-display {
+            display: inline-block;
+            background: #3a3a3a;
+            color: #d4af37;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        #trajectoryCanvas {
+            border: 1px solid #3a3a3a;
+            border-radius: 4px;
+            background: #1a1a1a;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .button {
+            background: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .button:hover {
+            background: #c5a028;
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.clear-btn {
+            background: #3a3a3a;
+            color: #b0b0b0;
+        }
+
+        .button.clear-btn:hover {
+            background: #4a4a4a;
+            color: #e0e0e0;
+        }
+
+        .info-text {
+            font-size: 11px;
+            color: #808080;
+            margin-top: 10px;
+            padding: 8px;
+            background: #2d2d2d;
+            border-radius: 3px;
+            border-left: 2px solid #5a5a5a;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #3a3a3a;
+            background: #2d2d2d;
+            color: #b0b0b0;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mode-btn.active {
+            background: #d4af37;
+            color: #1a1a1a;
+            border-color: #d4af37;
+        }
+
+        .legend {
+            margin-top: 15px;
+            padding: 12px;
+            background: #2d2d2d;
+            border-radius: 3px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .legend h4 {
+            font-size: 11px;
+            margin-bottom: 10px;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 11px;
+            color: #a0a0a0;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 3px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>⚔️ Artillery Trajectory Simulator</h1>
+                <p>18th/19th Century Artillery Calculator | Based on RK45 Firing Tables</p>
+            </div>
+
+            <div>
+                <h1>Team 508</h1>
+                <p>University Physics Competition, 2025</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="controls-panel">
+                <div class="mode-selector">
+                    <button class="mode-btn active" onclick="setMode('single')">Single Shot</button>
+                    <button class="mode-btn" onclick="setMode('compare')">Compare</button>
+                </div>
+
+                <div class="control-group">
+                    <h3>🎯 Target Parameters</h3>
+                    <div class="input-row">
+                        <label>Target Distance (m): <span class="value-display" id="targetDisplay">1200</span></label>
+                        <input type="range" id="targetDistance" min="500" max="2000" value="1200" step="50">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🔫 Firing Parameters</h3>
+                    <div class="input-row">
+                        <label>Muzzle Velocity (m/s): <span class="value-display"
+                                id="velocityDisplay">200</span></label>
+                        <input type="range" id="velocity" min="100" max="450" value="200" step="0.5">
+                    </div>
+                    <div class="input-row">
+                        <label>Firing Angle (°): <span class="value-display" id="angleDisplay">45</span></label>
+                        <input type="range" id="angle" min="10" max="80" value="45" step="0.1">
+                    </div>
+                    <div class="input-row">
+                        <label>Launch Altitude (m): <span class="value-display" id="altitudeDisplay">500</span></label>
+                        <input type="range" id="altitude" min="0" max="1000" value="500" step="10">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>💨 Wind Conditions</h3>
+                    <div class="input-row">
+                        <label>Wind Speed (m/s): <span class="value-display" id="windSpeedDisplay">0</span></label>
+                        <input type="range" id="windSpeed" min="0" max="20" value="0" step="1">
+                    </div>
+                    <div class="input-row">
+                        <label>Wind Direction (°): <span class="value-display" id="windAngleDisplay">0</span></label>
+                        <input type="range" id="windAngle" min="0" max="180" value="0" step="15">
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">0°=Tailwind, 90°=Crosswind,
+                            180°=Headwind</p>
+                    </div>
+                </div>
+
+                <button class="button" onclick="fireProjectile()">🔥 FIRE</button>
+                <button class="button clear-btn" onclick="clearTrajectories()">Clear All</button>
+
+                <div class="info-text">
+                    <strong>TIP:</strong> Use Compare mode to overlay multiple trajectories
+                </div>
+
+                <div class="legend">
+                    <h4>📈 Legend</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ff6432; height: 3px;"></div>
+                        <span>Current Shot</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color"
+                            style="background: rgba(100, 149, 237, 0.4); border: 1px dashed rgba(100, 149, 237, 0.6); height: 2px;">
+                        </div>
+                        <span>Previous Shots</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color"
+                            style="background: #d4af37; height: 8px; width: 8px; border-radius: 50%; border: 2px solid #b8941f;">
+                        </div>
+                        <span>Target Location</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-panel">
+                <div class="canvas-container">
+                    <canvas id="trajectoryCanvas" width="900" height="600"></canvas>
+                    <div class="results-overlay" id="resultsOverlay">
+                        <h4>📊 BALLISTICS DATA</h4>
+                        <p><strong>Range:</strong> <span class="value" id="calcRange">-</span> m</p>
+                        <p><strong>Time:</strong> <span class="value" id="flightTime">-</span> s</p>
+                        <p><strong>Apex:</strong> <span class="value" id="maxHeight">-</span> m</p>
+                        <p><strong>Impact V:</strong> <span class="value" id="impactVel">-</span> m/s</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Physical constants
+        const G = 9.81;
+        const RHO_SEA = 1.225;
+        const MASS = 5;
+        const DIAMETER = 0.11;
+        const RADIUS = DIAMETER / 2;
+        const AREA = Math.PI * RADIUS * RADIUS;
+        const CD = 0.47;
+        const SCALE_HEIGHT = 8500;
+
+        const canvas = document.getElementById('trajectoryCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let mode = 'single';
+        let trajectories = [];
+        let mountainProfile = null;
+        let groundTexture = null;
+
+        function generateStaticBackground() {
+            mountainProfile = [];
+            for (let x = 0; x < canvas.width; x += 50) {
+                mountainProfile.push({
+                    x: x,
+                    y: canvas.height * 0.65 - Math.random() * 40 - 20
+                });
+            }
+
+            groundTexture = [];
+            for (let i = 0; i < 20; i++) {
+                groundTexture.push({
+                    x: Math.random() * canvas.width,
+                    y: canvas.height - Math.random() * 50,
+                    dx: Math.random() * 10 - 5,
+                    dy: Math.random() * 5
+                });
+            }
+        }
+
+        // Pre-loaded table data (subset of our data for key points)
+        const rangeTable = {
+            // altitude: { velocity: { angle: range } }
+            0: {
+                100: { 30: 678.59, 45: 739.28 },
+                200: { 30: 2094.95, 45: 2239.05 },
+                300: { 30: 3009.71, 45: 3048.96 }
+            },
+            500: {
+                100: { 30: 684.75, 45: 745.73 },
+                200: { 30: 2128.13, 45: 2274.05 },
+                225: { 30: 1942.18, 45: 1976.33 },
+                300: { 30: 3066.88, 45: 3108.41 },
+                350: { 30: 2883.67, 45: 2849.38 }
+            },
+            1000: {
+                100: { 30: 690.70, 45: 751.95 },
+                200: { 30: 2160.37, 45: 2308.22 }
+            }
+        };
+
+        const windCorrections = {
+            0: { 0: 0, 5: 69.62, 10: 139.03, 15: 208.17, 20: 277.00 },
+            45: { 0: 0, 5: 49.25, 10: 98.40, 15: 147.43, 20: 196.33 },
+            90: { 0: 0, 5: 0, 10: 0, 15: 0, 20: 0 },
+            135: { 0: 0, 5: -49.34, 10: -98.74, 15: -148.21, 20: -197.72 },
+            180: { 0: 0, 5: -69.79, 10: -139.72, 15: -209.74, 20: -279.82 }
+        };
+
+        function setMode(newMode) {
+            mode = newMode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            if (mode === 'single') {
+                trajectories = [];
+                drawCanvas();
+            }
+        }
+
+        function airDensity(altitude) {
+            if (altitude <= 0) return RHO_SEA;
+            return RHO_SEA * Math.exp(-altitude / SCALE_HEIGHT);
+        }
+
+        function interpolateRange(velocity, angle, altitude) {
+            // Simple linear interpolation in the tables
+            // Find nearest altitude
+            const altitudes = [0, 500, 1000];
+            let alt1 = 0, alt2 = 500;
+            for (let i = 0; i < altitudes.length - 1; i++) {
+                if (altitude >= altitudes[i] && altitude <= altitudes[i + 1]) {
+                    alt1 = altitudes[i];
+                    alt2 = altitudes[i + 1];
+                    break;
+                }
+            }
+            if (altitude > 1000) { alt1 = 1000; alt2 = 1000; }
+
+            // Find nearest velocity and angle in tables
+            const velocities = Object.keys(rangeTable[alt1] || {}).map(Number).sort((a, b) => a - b);
+            let v1 = velocities[0] || 100;
+            let v2 = velocities[velocities.length - 1] || 300;
+            for (let i = 0; i < velocities.length - 1; i++) {
+                if (velocity >= velocities[i] && velocity <= velocities[i + 1]) {
+                    v1 = velocities[i];
+                    v2 = velocities[i + 1];
+                    break;
+                }
+            }
+
+            const v0 = velocity;
+            const theta = angle * Math.PI / 180;
+            const sin2theta = Math.sin(2 * theta);
+
+            // Basic range formula with drag approximation
+            const baseRange = (v0 * v0 * sin2theta) / G;
+            const dragFactor = 0.85 - (altitude / 10000) * 0.05;
+
+            return baseRange * dragFactor;
+        }
+
+        function getWindCorrection(windSpeed, windAngle) {
+            const angles = [0, 45, 90, 135, 180];
+            let angle1 = 0, angle2 = 45;
+            for (let i = 0; i < angles.length - 1; i++) {
+                if (windAngle >= angles[i] && windAngle <= angles[i + 1]) {
+                    angle1 = angles[i];
+                    angle2 = angles[i + 1];
+                    break;
+                }
+            }
+
+            const speeds = [0, 5, 10, 15, 20];
+            let speed1 = 0, speed2 = 5;
+            for (let i = 0; i < speeds.length - 1; i++) {
+                if (windSpeed >= speeds[i] && windSpeed <= speeds[i + 1]) {
+                    speed1 = speeds[i];
+                    speed2 = speeds[i + 1];
+                    break;
+                }
+            }
+
+            // Linear interpolation
+            const corr1 = windCorrections[angle1][speed1] || 0;
+            const corr2 = windCorrections[angle1][speed2] || 0;
+            const t = (windSpeed - speed1) / (speed2 - speed1 || 1);
+
+            return corr1 + t * (corr2 - corr1);
+        }
+
+        function calculateTrajectory(v0, angleDeg, altitude, windSpeed, windAngle) {
+            const theta = angleDeg * Math.PI / 180;
+            const vx0 = v0 * Math.cos(theta);
+            const vy0 = v0 * Math.sin(theta);
+
+            const windRad = windAngle * Math.PI / 180;
+            const windX = windSpeed * Math.cos(windRad);
+
+            const points = [];
+            const dt = 0.05;
+            let x = 0, y = 0, vx = vx0, vy = vy0;
+            let maxHeight = 0;
+            let t = 0;
+
+            while (y >= 0 && t < 60) {
+                points.push({ x, y: y + altitude });
+
+                const currentAlt = altitude + y;
+                const rho = airDensity(currentAlt);
+
+                const vxRel = vx - windX;
+                const vyRel = vy;
+                const vRel = Math.sqrt(vxRel * vxRel + vyRel * vyRel);
+
+                let ax = 0, ay = -G;
+                if (vRel > 0) {
+                    const drag = 0.5 * rho * CD * AREA * vRel * vRel / MASS;
+                    ax = -drag * vxRel / vRel;
+                    ay = -G - drag * vyRel / vRel;
+                }
+
+                vx += ax * dt;
+                vy += ay * dt;
+                x += vx * dt;
+                y += vy * dt;
+
+                maxHeight = Math.max(maxHeight, y);
+                t += dt;
+            }
+
+            const finalVel = Math.sqrt(vx * vx + vy * vy);
+
+            return {
+                points,
+                range: x,
+                time: t,
+                maxHeight,
+                impactVelocity: finalVel,
+                altitude: altitude
+            };
+        }
+
+        let animationFrame = null;
+        let currentAnimation = null;
+
+        function worldToCanvas(x, y, altitude, scale, maxHeight) {
+
+            const padding = 50;
+            const groundY = canvas.height - 50;
+            const availableHeight = canvas.height - 100;
+
+            // Canvas X: linear scale from world X
+            const canvasX = padding + x * scale;
+
+            // Canvas Y: y=0 at launch point (groundY - altitude_offset)
+            // Higher altitude = lower on screen offset
+            const altitudePixelOffset = (altitude / maxHeight) * availableHeight * 0.3;
+            const launchPointY = groundY - altitudePixelOffset;
+
+            // Convert y (height above launch) to canvas Y
+            const yPixelScale = availableHeight / maxHeight;
+            const canvasY = launchPointY - (y * yPixelScale);
+
+            return { x: canvasX, y: canvasY };
+        }
+
+        function drawCanvas(animProgress = null) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const targetDist = parseFloat(document.getElementById('targetDistance').value);
+            const altitude = parseFloat(document.getElementById('altitude').value);
+
+            let maxRange = targetDist * 1.3;
+            trajectories.forEach(traj => {
+                maxRange = Math.max(maxRange, traj.range * 1.1);
+            });
+            maxRange = Math.max(maxRange, 2000);
+
+            let maxHeight = 1000;
+            trajectories.forEach(traj => {
+                maxHeight = Math.max(maxHeight, (traj.maxHeight + altitude) * 1.2);
+            });
+
+            const scale = (canvas.width - 100) / maxRange;
+
+            const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.6);
+            skyGradient.addColorStop(0, '#1a2332');
+            skyGradient.addColorStop(0.5, '#2d3e50');
+            skyGradient.addColorStop(1, '#3d5266');
+            ctx.fillStyle = skyGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#1a1f28';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height * 0.65);
+            mountainProfile.forEach(point => {
+                ctx.lineTo(point.x, point.y);
+            });
+            ctx.lineTo(canvas.width, canvas.height * 0.65);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.fill();
+
+            const groundGradient = ctx.createLinearGradient(0, canvas.height - 50, 0, canvas.height);
+            groundGradient.addColorStop(0, '#2a2416');
+            groundGradient.addColorStop(0.5, '#362d1f');
+            groundGradient.addColorStop(1, '#1a1510');
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+
+            ctx.strokeStyle = 'rgba(60, 50, 35, 0.3)';
+            ctx.lineWidth = 1;
+            groundTexture.forEach(mark => {
+                ctx.beginPath();
+                ctx.moveTo(mark.x, mark.y);
+                ctx.lineTo(mark.x + mark.dx, mark.y + mark.dy);
+                ctx.stroke();
+            });
+
+            ctx.strokeStyle = 'rgba(100, 100, 100, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 10; i++) {
+                const x = 50 + i * (canvas.width - 100) / 10;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height - 50);
+                ctx.stroke();
+            }
+
+            // Distance markers
+            ctx.fillStyle = '#808080';
+            ctx.font = '11px monospace';
+            for (let i = 0; i <= 5; i++) {
+                const dist = (maxRange / 5) * i;
+                const pos = worldToCanvas(dist, 0, 0, scale, maxHeight);
+                ctx.fillText(Math.round(dist) + 'm', pos.x - 18, canvas.height - 30);
+            }
+
+            // Altitude markers
+            ctx.font = '10px monospace';
+            ctx.fillStyle = '#707070';
+            for (let h = 0; h <= maxHeight; h += 200) {
+                const pos = worldToCanvas(0, h - altitude, altitude, scale, maxHeight);
+                if (pos.y > 10 && pos.y < canvas.height - 60) {
+                    ctx.fillText(h + 'm', 5, pos.y + 3);
+                    ctx.strokeStyle = 'rgba(100, 100, 100, 0.08)';
+                    ctx.beginPath();
+                    ctx.moveTo(40, pos.y);
+                    ctx.lineTo(canvas.width - 10, pos.y);
+                    ctx.stroke();
+                }
+            }
+
+            // Artillery piece at launch point
+            const cannonPos = worldToCanvas(0, 0, altitude, scale, maxHeight);
+
+            // Cannon platform
+            ctx.fillStyle = '#1a1510';
+            ctx.fillRect(cannonPos.x - 20, cannonPos.y - 5, 40, 10);
+
+            // Cannon barrel
+            ctx.strokeStyle = '#4a4a4a';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(cannonPos.x, cannonPos.y);
+            ctx.lineTo(cannonPos.x + 18, cannonPos.y - 12);
+            ctx.stroke();
+
+            // Cannon wheel
+            ctx.strokeStyle = '#3a3a3a';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(cannonPos.x, cannonPos.y, 10, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Cannon body
+            ctx.fillStyle = '#5a5a5a';
+            ctx.fillRect(cannonPos.x - 8, cannonPos.y - 6, 16, 12);
+
+            // Target structure
+            const targetPos = worldToCanvas(targetDist, 0, altitude, scale, maxHeight);
+
+            // Target pole
+            ctx.strokeStyle = '#8b6f47';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(targetPos.x, targetPos.y);
+            ctx.lineTo(targetPos.x, targetPos.y - 40);
+            ctx.stroke();
+
+            // Target marker
+            ctx.fillStyle = '#d4af37';
+            ctx.strokeStyle = '#b8941f';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(targetPos.x, targetPos.y - 40, 7, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Target base
+            ctx.fillStyle = '#6a5a3a';
+            ctx.fillRect(targetPos.x - 12, targetPos.y - 4, 24, 8);
+
+            //  old trajectories
+            if (trajectories.length > 1) {
+                for (let i = 0; i < trajectories.length - 1; i++) {
+                    const traj = trajectories[i];
+
+                    ctx.shadowBlur = 3;
+                    ctx.shadowColor = 'rgba(100, 149, 237, 0.3)';
+                    ctx.strokeStyle = 'rgba(100, 149, 237, 0.4)';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([4, 3]);
+
+                    ctx.beginPath();
+                    let firstPoint = true;
+                    traj.points.forEach((p) => {
+                        const pos = worldToCanvas(p.x, p.y - traj.altitude, traj.altitude, scale, maxHeight);
+                        if (firstPoint) {
+                            ctx.moveTo(pos.x, pos.y);
+                            firstPoint = false;
+                        } else {
+                            ctx.lineTo(pos.x, pos.y);
+                        }
+                    });
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            // current trajectory
+            if (trajectories.length > 0) {
+                const traj = trajectories[trajectories.length - 1];
+                const currentAltitude = traj.altitude;
+
+                let pointsToDraw = traj.points.length;
+                if (animProgress !== null) {
+                    pointsToDraw = Math.floor(traj.points.length * animProgress);
+                    pointsToDraw = Math.max(2, pointsToDraw);
+                }
+
+                // Glow
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'rgba(255, 100, 50, 0.5)';
+                ctx.strokeStyle = '#ff6432';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([]);
+                ctx.beginPath();
+
+                let firstPoint = true;
+                for (let i = 0; i < pointsToDraw; i++) {
+                    const p = traj.points[i];
+                    const pos = worldToCanvas(p.x, p.y - currentAltitude, currentAltitude, scale, maxHeight);
+
+                    if (firstPoint) {
+                        ctx.moveTo(pos.x, pos.y);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(pos.x, pos.y);
+                    }
+                }
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                if (animProgress !== null && pointsToDraw < traj.points.length) {
+                    const p = traj.points[pointsToDraw - 1];
+                    const pos = worldToCanvas(p.x, p.y - currentAltitude, currentAltitude, scale, maxHeight);
+
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = 'rgba(255, 150, 50, 0.8)';
+
+                    ctx.fillStyle = '#2a2a2a';
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.shadowBlur = 0;
+
+                    ctx.fillStyle = '#d4af37';
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function fireProjectile() {
+            const v0 = parseFloat(document.getElementById('velocity').value);
+            const angle = parseFloat(document.getElementById('angle').value);
+            const altitude = parseFloat(document.getElementById('altitude').value);
+            const windSpeed = parseFloat(document.getElementById('windSpeed').value);
+            const windAngle = parseFloat(document.getElementById('windAngle').value);
+
+            const trajectory = calculateTrajectory(v0, angle, altitude, windSpeed, windAngle);
+
+            if (mode === 'single') {
+                trajectories = [trajectory];
+            } else {
+                trajectories.push(trajectory);
+                if (trajectories.length > 6) trajectories.shift();
+            }
+
+            document.getElementById('calcRange').textContent = trajectory.range.toFixed(1);
+            document.getElementById('flightTime').textContent = trajectory.time.toFixed(2);
+            document.getElementById('maxHeight').textContent = trajectory.maxHeight.toFixed(1);
+            document.getElementById('impactVel').textContent = trajectory.impactVelocity.toFixed(1);
+
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+            }
+
+            // Animate the trajectory
+            const animationDuration = Math.min(trajectory.time * 200, 3000); // Scale time but cap at 3 seconds
+            const startTime = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / animationDuration, 1);
+
+                drawCanvas(progress);
+
+                if (progress < 1) {
+                    animationFrame = requestAnimationFrame(animate);
+                } else {
+                    animationFrame = null;
+                    drawCanvas(null); // Draw final state without animation marker
+                }
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        function clearTrajectories() {
+            trajectories = [];
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+            drawCanvas();
+        }
+
+        // Update displays
+        document.getElementById('targetDistance').addEventListener('input', (e) => {
+            document.getElementById('targetDisplay').textContent = e.target.value;
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+            drawCanvas();
+        });
+
+        document.getElementById('velocity').addEventListener('input', (e) => {
+            document.getElementById('velocityDisplay').textContent = e.target.value;
+        });
+
+        document.getElementById('angle').addEventListener('input', (e) => {
+            document.getElementById('angleDisplay').textContent = e.target.value;
+        });
+
+        document.getElementById('altitude').addEventListener('input', (e) => {
+            document.getElementById('altitudeDisplay').textContent = e.target.value;
+        });
+
+        document.getElementById('windSpeed').addEventListener('input', (e) => {
+            document.getElementById('windSpeedDisplay').textContent = e.target.value;
+        });
+
+        document.getElementById('windAngle').addEventListener('input', (e) => {
+            document.getElementById('windAngleDisplay').textContent = e.target.value;
+        });
+
+        generateStaticBackground();
+        drawCanvas();
+    </script>
+</body>
+
+</html>
