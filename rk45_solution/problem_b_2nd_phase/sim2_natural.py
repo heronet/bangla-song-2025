@@ -5,7 +5,7 @@ from scipy.integrate import solve_ivp
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
-# Constants (same as Part 1)
+# Constants
 G_SEA_LEVEL = 9.81
 RHO_SEA = 1.225
 MASS = 5
@@ -25,7 +25,7 @@ def gravity(altitude):
     return G_SEA_LEVEL * (EARTH_RADIUS / (EARTH_RADIUS + altitude))**2
 
 def air_density(altitude):
-    # constant scale height for Part 2
+    # constant scale height
     if altitude <= 0:
         return RHO_SEA
     return RHO_SEA * np.exp(-altitude / SCALE_HEIGHT_SEA)
@@ -36,7 +36,7 @@ def derivatives_with_wind(t, state, base_altitude, wind_x, wind_y):
 
     current_altitude = base_altitude + y
 
-    g = G_SEA_LEVEL  # constant g for Part 2
+    g = G_SEA_LEVEL  # constant g
 
     rho = air_density(current_altitude)
 
